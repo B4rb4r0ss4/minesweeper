@@ -18,10 +18,16 @@ int main(int argc, char* argv[]) {
     bool end = false; int i = 0;
     do { 
         if(game.isRunning()) {
-            game.run();
-            game.displayHowManyFlags();
-            game.displayTime((int)clock.getElapsedTime().asSeconds());
-            game.displayy(); 
+            if(game.run()) {
+            	game.displayHowManyFlags();
+            	game.displayTime((int)clock.getElapsedTime().asSeconds());
+            	game.displayy(); 
+	    } else {
+		game.restart();
+		end = false;
+		i = 0;
+		clock.restart();
+	    }
         }
         if(!end) {
             end = game.isEnd();
@@ -40,10 +46,12 @@ int main(int argc, char* argv[]) {
             game.displayTime(endedTime);
             game.displayHowManyFlags();
             game.displayy();
-            game.waitForE();
-            clock.restart();
-            end = false;
-            i = 0;
+            if(game.waitForE()) {
+	    	game.restart();
+		end = false;
+		i = 0;
+		clock.restart();
+	    }
         }
     } while(game.isRunningg());
     

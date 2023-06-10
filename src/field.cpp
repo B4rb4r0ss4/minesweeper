@@ -28,6 +28,7 @@ void Game::Field::addMine() {
 }
 
 void Game::Field::flag() {
+    if(opened) return;
     if(game->howManyFlags <= 0 && !flagged) return;
     flagged = !flagged;
     if(flagged) game->howManyFlags--;

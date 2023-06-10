@@ -1,5 +1,4 @@
 #include "minesweeper.h"
-
 #include <ctime>
 #include <cmath>
 #include <iostream>
@@ -28,21 +27,25 @@ Game::Game(int _width, int _mines) {
 	}
 }
 
-void Game::startGame(const int x, const int y) {
-    toWin = boardSize * boardSize - howManyBombs;
-    leftGap = ceil(log10(boardSize)) + 1;
-    srand(time(NULL));
-    running = false;
-    moves = 0;
-    win = 1;
-    howManyFlags = howManyBombs;
-    board = std::vector<std::vector<Field>> (boardSize);
-    for(int i=0; i<boardSize; i++) {
-        for(int j=0; j<boardSize; j++) {
+void Game::restart() {
+	toWin = boardSize * boardSize - howManyBombs;
+	running = false;
+	moves = 0;
+	win = 1;
+	howManyFlags = howManyBombs;
+	board = std::vector<std::vector<Field>> (boardSize);
+  	for(int i=0; i<boardSize; i++) {
+       		for(int j=0; j<boardSize; j++) {
 			board[i].emplace_back(j, i, this);
 		}
 	}
+	running = 1;
+	window->clear(sf::Color(150, 150, 150, 255));
+	displayBoard();
+	run();
+}
 
+void Game::startGame(const int x, const int y) {
     generateBoard(x, y);
     running = 1;
 }

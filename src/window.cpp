@@ -99,15 +99,24 @@ bool Game::Field::isClicked(sf::Vector2f mouse) {
     return mouse.x > x*32+20 && mouse.x < x*32+52 && mouse.y > y*32+50 && mouse.y < y*32+82;
 }
 
-void Game::run() {
+bool Game::run() {
         sf::Event event;
         
         while(window->pollEvent(event)) {
-            if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+	    if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
-                int curX = (mousePosition.x-20)/32;
-                int curY = ((mousePosition.y-90)/32);
-                reveal(curY, curX);
+              	int curX = (mousePosition.x);
+                int curY = (mousePosition.y);
+                  
+		if(curX >= (boardSize*32-16)/2 && curX <= (boardSize*32-16)/2+48 && curY >=20 && curY <= 68) {
+                    startGame(boardSize, howManyBombs);
+                    return 0;
+                }
+		else if(curY <= 90 || curX <= 20 || curX >= 32*boardSize+20 || curY >= 32*boardSize+90) return 1;
+		curX = (mousePosition.x-20)/32;
+                curY = ((mousePosition.y-90)/32);
+               
+		reveal(curY, curX);
                
                 moves++;
                 window->clear(sf::Color(150, 150, 150, 255));
@@ -121,8 +130,10 @@ void Game::run() {
                 window->clear(sf::Color(150, 150, 150, 255));
                 displayBoard();
  
-            } else if(event.type == sf::Event::Closed) window->close();
+            } 
+	    else if(event.type == sf::Event::Closed) window->close();
         }
+	return 1;
         
 }
 

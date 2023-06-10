@@ -59,12 +59,13 @@ class Game {
         void displayBoard();
         void displayEnd();
         void update();
-        void run();
+        bool run();
         bool isEnd();
         void displayTime(int);
         void displayy();
         void displayHowManyFlags();
-        bool waitForE();
+        void restart();
+	bool waitForE();
         int moves;
         int howManyFlags; 
 };
